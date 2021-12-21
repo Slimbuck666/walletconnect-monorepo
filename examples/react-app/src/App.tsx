@@ -178,7 +178,7 @@ class App extends React.Component<any, any> {
 
   public getAllNamespaces() {
     const namespaces: string[] = [];
-    DEFAULT_CHAINS.forEach(chainId => {
+    DEFAULT_CHAINS.forEach((chainId) => {
       const [namespace] = chainId.split(":");
       if (!namespaces.includes(namespace)) {
         namespaces.push(namespace);
@@ -191,7 +191,7 @@ class App extends React.Component<any, any> {
     const namespaces = this.getAllNamespaces();
     const chainData: ChainNamespaces = {};
     await Promise.all(
-      namespaces.map(async namespace => {
+      namespaces.map(async (namespace) => {
         let chains: ChainsMap | undefined;
         try {
           chains = await apiGetChainNamespace(namespace);
@@ -245,11 +245,8 @@ class App extends React.Component<any, any> {
     // populates existing session to state (assume only the top one)
     if (this.state.client.session.topics.length) {
       const session = await this.state.client.session.get(this.state.client.session.topics[0]);
-      const chains = session.state.accounts.map(account =>
-        account
-          .split(":")
-          .slice(0, -1)
-          .join(":"),
+      const chains = session.state.accounts.map((account) =>
+        account.split(":").slice(0, -1).join(":"),
       );
       this.setState({ accounts: session.state.accounts, chains });
       this.onSessionConnected(session);
@@ -267,14 +264,14 @@ class App extends React.Component<any, any> {
     try {
       const chains = this.state.chains;
       const supportedNamespaces: string[] = [];
-      chains.forEach(chainId => {
+      chains.forEach((chainId) => {
         const [namespace] = chainId.split(":");
         if (!supportedNamespaces.includes(namespace)) {
           supportedNamespaces.push(namespace);
         }
       });
       const methods: string[] = supportedNamespaces
-        .map(namespace => {
+        .map((namespace) => {
           switch (namespace) {
             case "eip155":
               return DEFAULT_EIP155_METHODS;
@@ -345,7 +342,7 @@ class App extends React.Component<any, any> {
     this.setState({ fetching: true });
     try {
       const arr = await Promise.all(
-        this.state.accounts.map(async account => {
+        this.state.accounts.map(async (account) => {
           const [namespace, reference, address] = account.split(":");
           const chainId = `${namespace}:${reference}`;
           const assets = await apiGetAccountAssets(address, chainId);
@@ -394,7 +391,7 @@ class App extends React.Component<any, any> {
 
     try {
       // get ethereum address
-      const account = this.state.accounts.find(account => account.startsWith(chainId));
+      const account = this.state.accounts.find((account) => account.startsWith(chainId));
       if (account === undefined) throw new Error("Account is not found");
       const address = account.split(":").pop();
       if (address === undefined) throw new Error("Address is invalid");
@@ -457,7 +454,7 @@ class App extends React.Component<any, any> {
       const hexMsg = encoding.utf8ToHex(message, true);
 
       // get ethereum address
-      const account = this.state.accounts.find(account => account.startsWith(chainId));
+      const account = this.state.accounts.find((account) => account.startsWith(chainId));
       if (account === undefined) throw new Error("Account is not found");
       const address = account.split(":").pop();
       if (address === undefined) throw new Error("Address is invalid");
@@ -521,7 +518,7 @@ class App extends React.Component<any, any> {
       const message = JSON.stringify(eip712.example);
 
       // get ethereum address
-      const account = this.state.accounts.find(account => account.startsWith(chainId));
+      const account = this.state.accounts.find((account) => account.startsWith(chainId));
       if (account === undefined) throw new Error("Account is not found");
       const address = account.split(":").pop();
       if (address === undefined) throw new Error("Address is invalid");
@@ -610,7 +607,7 @@ class App extends React.Component<any, any> {
       );
 
       // get cosmos address
-      const account = this.state.accounts.find(account => account.startsWith(chainId));
+      const account = this.state.accounts.find((account) => account.startsWith(chainId));
       if (account === undefined) throw new Error("Account is not found");
       const address = account.split(":").pop();
       if (address === undefined) throw new Error("Address is invalid");
@@ -682,7 +679,7 @@ class App extends React.Component<any, any> {
       };
 
       // get cosmos address
-      const account = this.state.accounts.find(account => account.startsWith(chainId));
+      const account = this.state.accounts.find((account) => account.startsWith(chainId));
       if (account === undefined) throw new Error("Account is not found");
       const address = account.split(":").pop();
       if (address === undefined) throw new Error("Address is invalid");
@@ -766,7 +763,7 @@ class App extends React.Component<any, any> {
   public handleChainSelectionClick = (chainId: string) => {
     const { chains } = this.state;
     if (chains.includes(chainId)) {
-      this.setState({ chains: chains.filter(x => x !== chainId) });
+      this.setState({ chains: chains.filter((x) => x !== chainId) });
     } else {
       this.setState({ chains: [...chains, chainId] });
     }
@@ -830,7 +827,7 @@ class App extends React.Component<any, any> {
             <p>Testnets Only?</p>
             <Toggle active={testnet} onClick={this.toggleTestnets} />
           </SToggleContainer>
-          {chainOptions.map(chainId => (
+          {chainOptions.map((chainId) => (
             <Blockchain
               key={chainId}
               chainId={chainId}
@@ -853,7 +850,7 @@ class App extends React.Component<any, any> {
       <SAccountsContainer>
         <h3>Accounts</h3>
         <SAccounts>
-          {this.state.accounts.map(account => {
+          {this.state.accounts.map((account) => {
             const [namespace, reference, address] = account.split(":");
             const chainId = `${namespace}:${reference}`;
             return (
