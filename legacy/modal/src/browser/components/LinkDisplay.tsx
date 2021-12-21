@@ -30,7 +30,7 @@ function LinkDisplay(props: LinkDisplayProps) {
   const [filter, setFilter] = React.useState("");
   const [page, setPage] = React.useState(1);
   const links = filter
-    ? props.links.filter(link => link.name.toLowerCase().includes(filter.toLowerCase()))
+    ? props.links.filter((link) => link.name.toLowerCase().includes(filter.toLowerCase()))
     : props.links;
   const errorMessage = props.errorMessage;
   const grid = filter || links.length > GRID_MIN_COUNT;
